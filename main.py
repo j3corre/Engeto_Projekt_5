@@ -5,14 +5,16 @@ author: Jan Bláha
 email: jan.blaha@bcas.cz
 """
 
+
 def hlavni_menu():
     """Zobrazí hlavní menu aplikace."""
 
     print("\nSprávce úkolů - Hlavní menu")
     print("1. Přidat nový úkol")
-    print("2. Zobrazit všechny úkoly")
-    print("3. Odstranit úkol")
-    print("4. Ukončit program")
+    print("2. Zobrazit úkoly")
+    print("3. Aktualizovat úkol")
+    print("4. Odstranit úkol")
+    print("5. Ukončit program")
 
 
 def pridat_ukol(ukoly: list, nazev_ukolu: str, popis_ukolu: str):
@@ -22,7 +24,7 @@ def pridat_ukol(ukoly: list, nazev_ukolu: str, popis_ukolu: str):
         nazev_ukolu (str): Název nového úkolu.
         popis_ukolu (str): Popis nového úkolu.
     """
-    
+
     if len(nazev_ukolu) == 0:
         print("Název úkolu nemůže být prázdný.")
         return
@@ -30,7 +32,7 @@ def pridat_ukol(ukoly: list, nazev_ukolu: str, popis_ukolu: str):
     if len(popis_ukolu) == 0:
         print("Popis úkolu nemůže být prázdný.")
         return
-    
+
     ukoly.append({"nazev": nazev_ukolu, "popis": popis_ukolu})
 
     print(f"Úkol '{nazev_ukolu}' byl přidán.")
@@ -49,6 +51,36 @@ def zobrazit_ukoly(ukoly: list):
         print(f"{i}. {ukol['nazev']} - {ukol['popis']}")
 
 
+def aktualizovat_ukol(ukoly: list, index: int) -> dict | None:
+    """Aktualizuje úkol v seznamu úkolů.
+    Args:
+        ukoly (list): Předaný existující seznam úkolů.
+        index (int): Index úkolu k aktualizaci.
+    """
+
+    index -= 1  # Převod na nulový index
+
+    if index < 0 or index >= len(ukoly):
+        print("Neplatný index úkolu.")
+        return None
+
+    nazev_ukolu = input("Zadejte nový název úkolu: ")
+    popis_ukolu = input("Zadejte nový popis úkolu: ")
+
+    if len(nazev_ukolu) == 0:
+        print("Název úkolu nemůže být prázdný.")
+        return
+
+    if len(popis_ukolu) == 0:
+        print("Popis úkolu nemůže být prázdný.")
+        return
+
+    ukoly[index]["nazev"] = nazev_ukolu
+    ukoly[index]["popis"] = popis_ukolu
+
+    print(f"Úkol '{nazev_ukolu}' byl aktualizován.")
+
+
 def odstranit_ukol(ukoly: list, index: int) -> dict | None:
     """Odstraní úkol ze seznamu úkolů.
     Args:
@@ -61,8 +93,9 @@ def odstranit_ukol(ukoly: list, index: int) -> dict | None:
     if index < 0 or index >= len(ukoly):
         print("Neplatný index úkolu.")
         return None
-    
+
     return ukoly.pop(index)
+
 
 def vrat_cislo(prompt: str, min_hodnota: int, max_hodnota: int) -> int:
     """Vrátí platné celé číslo zadané uživatelem v daném rozsahu.
@@ -84,6 +117,7 @@ def vrat_cislo(prompt: str, min_hodnota: int, max_hodnota: int) -> int:
         except ValueError:
             print("Neplatný vstup. Zadejte prosím celé číslo.")
 
+
 def main():
     """Hlavní funkce programu."""
 
@@ -104,17 +138,34 @@ def main():
                 zobrazit_ukoly(ukoly)
             case "3":
                 if not ukoly:
+                    print("\nŽádné úkoly k aktualizaci.")
+                else:
+                    zobrazit_ukoly(ukoly)
+                    aktualizovany_ukol = aktualizovat_ukol(
+                        ukoly,
+                        vrat_cislo(
+                            "Zadejte číslo úkolu k aktualizaci: ", 1, len(ukoly)
+                        ),
+                    )
+                    if aktualizovany_ukol:
+                        print(f"Úkol '{aktualizovany_ukol['nazev']}' byl aktualizován.")
+            case "4":
+                if not ukoly:
                     print("\nŽádné úkoly k odstranění.")
                 else:
                     zobrazit_ukoly(ukoly)
-                    odstraneny_ukol = odstranit_ukol(ukoly, vrat_cislo("Zadejte číslo úkolu k odstranění: ", 1, len(ukoly)))
+                    odstraneny_ukol = odstranit_ukol(
+                        ukoly,
+                        vrat_cislo("Zadejte číslo úkolu k odstranění: ", 1, len(ukoly)),
+                    )
                     if odstraneny_ukol:
                         print(f"Úkol '{odstraneny_ukol['nazev']}' byl odstraněn.")
-            case "4":
+            case "5":
                 print("\nKonec programu.")
                 break
             case _:
                 print("Neplatná volba, zkuste to znovu.")
+
 
 if __name__ == "__main__":
     main()
