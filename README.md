@@ -117,8 +117,8 @@ Po spuštění aplikace se zobrazí hlavní menu s následujícími možnostmi:
 3. **Aktualizovat úkol**
    - Umožňuje změnit stav existujícího úkolu
    - Nabízí změnu stavu na:
-     - Probíhající (in_progress)
-     - Dokončený (completed)
+     - Probíhá (in_progress)
+     - Hotovo (completed)
 
 4. **Odstranit úkol**
    - Umožňuje odstranit vybraný úkol ze seznamu
@@ -145,8 +145,8 @@ Důležitou vlastností aplikace je, že všechny úkoly jsou ukládány do MySQ
 
 ## Poznámky k automatickým testům
 
-- Připraveny `pytest` jsou jak pozitivní, tak negativní testy funkcí `add_task()`, `get_tasks()`, `update_task_state()` a `delete_task()`
-- Lze je spustit všechny najednou (celkem 19 testů), nebo je spouštět jednotlivě pomocí
+- Připraveno je celkem 19 testů pro `pytest`. Jsou jak pozitivní, tak negativní, a testují funkce `add_task()`, `get_tasks()`, `update_task_state()` a `delete_task()`
+- Lze je spustit všechny najednou, nebo je lze spouštět jednotlivě pro testované funkce pomocí
 ```bash
 pytest -m testAddTask
 pytest -m testgetTasks
