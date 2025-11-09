@@ -53,10 +53,11 @@ def clear_database(conn, db_name):
     cursor.close()
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(
+    scope="module"
+)  # Nastavíme scope pro celý modul, chceme smazat DB až na konci testů
 def conn():
-
-    # load .env konfiguracni data, pro TESTOVACI DB
+    # load .env.test konfiguracni data, pro TESTOVACI DB
     # zacatek
 
     load_dotenv(dotenv_path=".env.test")

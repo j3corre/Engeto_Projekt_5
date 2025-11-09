@@ -143,6 +143,17 @@ Důležitou vlastností aplikace je, že všechny úkoly jsou ukládány do MySQ
 - Chybové stavy jsou ošetřeny pomocí vlastních výjimek
 - Kód obsahuje kompletní dokumentaci funkcí pomocí docstringů
 
+## Poznámky k automatickým testům
+
+- Připraveny `pytest` jsou jak pozitivní, tak negativní testy funkcí `add_task()`, `get_tasks()`, `update_task_state()` a `delete_task()`
+- Lze je spustit všechny najednou (celkem 19 testů), nebo je spouštět jednotlivě pomocí
+```bash
+pytest -m testAddTask
+pytest -m testgetTasks
+pytest -m testUpdateTaskState
+pytest -m testDeleteTask
+```
+
 ## Autor
 
 Jan Bláha (jan.blaha@bcas.cz)

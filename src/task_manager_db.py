@@ -91,6 +91,10 @@ def add_task(connection, name, description, state):
         raise ValueError("Invalid task description.")
     if state not in ["pending", "in_progress", "completed"]:
         raise ValueError("Invalid task state.")
+    if len(name) > 100:
+        raise ValueError("Task name is too long.")
+    if len(description) > 255:
+        raise ValueError("Task description is too long.")
 
     cursor = connection.cursor()
     cursor.execute(
@@ -134,6 +138,10 @@ def update_task_state(connection, task_id, new_state):
         raise RuntimeError("No database connection.")
     if new_state not in ["pending", "in_progress", "completed"]:
         raise ValueError("Invalid task state.")
+    if task_id not in { # kontrola platného ID úkolu
+        task["id"] for task in get_tasks(connection)
+    }:
+        raise ValueError("Invalid task ID.")
 
     cursor = connection.cursor()
     cursor.execute("UPDATE tasks SET state = %s WHERE id = %s", (new_state, task_id))
@@ -151,6 +159,10 @@ def delete_task(connection, task_id):
 
     if not connection:
         raise RuntimeError("No database connection.")
+    if task_id not in { # kontrola platného ID úkolu
+        task["id"] for task in get_tasks(connection)
+    }:  
+        raise ValueError("Invalid task ID.")
 
     cursor = connection.cursor()
     cursor.execute("DELETE FROM tasks WHERE id = %s", (task_id,))
