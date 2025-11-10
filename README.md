@@ -153,6 +153,7 @@ pytest -m testgetTasks
 pytest -m testUpdateTaskState
 pytest -m testDeleteTask
 ```
+- Konfigurace připojení k testovací databázi se bere ze souboru `.env.test` v kořenovém adresáři
 
 ## Autor
 
